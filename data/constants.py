@@ -11,20 +11,21 @@ logger = logging.getLogger(__name__)
 CAT_OFFSET = timedelta(hours=2)
 WINDOW_HOURS = 6
 
+_BUILTIN_KEY = "4d34b5f590msh5ce9ece8c1f6910p155a7ajsnfbaa5a5fb605"
+
 def _load_api_key() -> str:
-    """Load API key from Streamlit secrets or environment variables."""
+    """Load API key: Streamlit secrets → env var → built-in key."""
     try:
         import streamlit as st
-        return st.secrets["APIFOOTBALL_KEY"]
+        key = st.secrets.get("APIFOOTBALL_KEY", "")
+        if key:
+            return key
     except Exception:
-        key = os.environ.get("APIFOOTBALL_KEY", "")
-        if not key:
-            logger.warning(
-                "APIFOOTBALL_KEY not found. "
-                "Add it to .streamlit/secrets.toml or set the env var."
-            )
-            return ""
+        pass
+    key = os.environ.get("APIFOOTBALL_KEY", "")
+    if key:
         return key
+    return _BUILTIN_KEY
 
 APIFOOTBALL_KEY = _load_api_key()
 
