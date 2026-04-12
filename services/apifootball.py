@@ -54,7 +54,10 @@ def _get(endpoint: str, params: dict) -> Optional[dict]:
         try:
             r = requests.get(url, headers=_HDRS, params=params, timeout=8)
             if r.status_code == 401:
-                logger.warning("API key unauthorized (401). Check APIFOOTBALL_KEY in secrets.")
+                logger.warning("API key unauthorized (401) — check your RapidAPI subscription for api-football.")
+                return None
+            if r.status_code == 429:
+                logger.warning("API rate limit hit (429) — daily quota may be exhausted.")
                 return None
             r.raise_for_status()
             return r.json()
@@ -62,7 +65,7 @@ def _get(endpoint: str, params: dict) -> Optional[dict]:
             logger.warning("API request failed (attempt %d/3): %s", attempt + 1, exc)
             if attempt == 2:
                 return None
-            time.sleep(1.0 * (attempt + 1))
+            time.sleep(2.0 * (attempt + 1))
     return None
 
 

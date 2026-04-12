@@ -514,7 +514,16 @@ def main():
         st.markdown("---")
 
         if not picks:
-            st.markdown("""
+            if leagues_hit == 0:
+                st.warning(
+                    "⚠️ **API quota exhausted or rate limited.** "
+                    "Your RapidAPI key has hit its daily request limit. "
+                    "Wait until midnight UTC for the quota to reset, or upgrade your plan at "
+                    "[rapidapi.com](https://rapidapi.com/api-sports/api/api-football/).",
+                    icon="📊",
+                )
+            else:
+                st.markdown("""
 <div class="no-picks">
   <span class="no-picks-icon">⏳</span>
   No games meet the confidence threshold in the next 6 hours.<br>
