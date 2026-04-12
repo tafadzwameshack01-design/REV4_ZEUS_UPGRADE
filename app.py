@@ -447,12 +447,23 @@ def main():
             f"Auto-refresh 60s &nbsp;·&nbsp; Scan #{count if count else '—'}"
         )
 
-        with st.spinner(""):
-            st.markdown(
-                '<div class="scan-line">⚡ ZEUS v4 NEURAL ENGINE — SCANNING 51 LEAGUES · OVER 2.5 GOALS ⚡</div>',
-                unsafe_allow_html=True
+        from data.constants import APIFOOTBALL_KEY
+        if not APIFOOTBALL_KEY:
+            st.error(
+                "⚠️ **API key not configured.** "
+                "Add `APIFOOTBALL_KEY = \"your_key_here\"` to your Streamlit Cloud "
+                "**App Settings → Secrets** and reboot the app. "
+                "Get your key at [rapidapi.com/api-sports](https://rapidapi.com/api-sports/api/api-football/).",
+                icon="🔑",
             )
-            picks, leagues_hit, games_eval, data_pts = _scan(conf_slider, league_filter_key)
+            picks, leagues_hit, games_eval, data_pts = [], 0, 0, 0
+        else:
+            with st.spinner(""):
+                st.markdown(
+                    '<div class="scan-line">⚡ ZEUS v4 NEURAL ENGINE — SCANNING 51 LEAGUES · OVER 2.5 GOALS ⚡</div>',
+                    unsafe_allow_html=True
+                )
+                picks, leagues_hit, games_eval, data_pts = _scan(conf_slider, league_filter_key)
 
         from database.db import get_bankroll
         from services.betting_engine import get_roi_stats
@@ -572,7 +583,7 @@ def main():
             "Value":     ["15% bankroll", "5", "1.50", "0.20 (20% Kelly)",
                           "2 consecutive", "4 consecutive"]
         }
-        st.dataframe(pd.DataFrame(risk_data), hide_index=True, use_container_width=True)
+        st.dataframe(pd.DataFrame(risk_data), hide_index=True, width='stretch')
 
         st.divider()
         st.markdown("**Kelly Criterion Formula**")
@@ -602,7 +613,7 @@ Edge = p × odds - 1   (must be > 0 to bet)
                     "Stake (€)":  p["stake"],
                     "Kelly f*":   f"{p['kelly_f']:.4f}",
                 } for p in bet_rows])
-                st.dataframe(df_bets, hide_index=True, use_container_width=True)
+                st.dataframe(df_bets, hide_index=True, width='stretch')
             else:
                 st.info("No bets placed in current scan window.")
 
@@ -669,7 +680,7 @@ Edge = p × odds - 1   (must be > 0 to bet)
                         "Confidence": f"{p['confidence']*100:.1f}%",
                         "Kickoff":    p["kickoff_utc"],
                     } for p in pend_list])
-                    st.dataframe(df_p, hide_index=True, use_container_width=True)
+                    st.dataframe(df_p, hide_index=True, width='stretch')
 
     # ══════════════════════════════════════════════════════════════
     #  TAB 4 — BANKROLL
@@ -719,7 +730,7 @@ Edge = p × odds - 1   (must be > 0 to bet)
                 if "recorded_at" in df_hist:
                     df_hist["recorded_at"] = df_hist["recorded_at"].str[:19]
                 st.dataframe(df_hist[["balance", "change", "reason", "recorded_at"]],
-                             hide_index=True, use_container_width=True)
+                             hide_index=True, width='stretch')
 
     # ══════════════════════════════════════════════════════════════
     #  TAB 5 — SIMULATION
@@ -760,7 +771,7 @@ Edge = p × odds - 1   (must be > 0 to bet)
             display_cols = ["iteration", "n_matches", "accuracy", "log_loss",
                             "brier", "roi", "max_drawdown", "win_rate", "passed", "run_at"]
             display_cols = [c for c in display_cols if c in df_sim.columns]
-            st.dataframe(df_sim[display_cols], hide_index=True, use_container_width=True)
+            st.dataframe(df_sim[display_cols], hide_index=True, width='stretch')
 
         st.divider()
         col_run, _ = st.columns([2, 3])
@@ -792,7 +803,7 @@ Edge = p × odds - 1   (must be > 0 to bet)
                 "Weight":  [round(w, 6) for w in w_slice],
                 "Bias":    [round(float(bias), 6)] + [None] * (len(labels) - 1),
             })
-            st.dataframe(df_w, hide_index=True, use_container_width=True)
+            st.dataframe(df_w, hide_index=True, width='stretch')
 
     # ══════════════════════════════════════════════════════════════
     #  TAB 6 — SYSTEM INFO
@@ -887,7 +898,7 @@ Stake = Bankroll × f* × 0.20    (fractional Kelly)
                 "Avg Goals": avg, "League ID": lid
             })
         df_l = pd.DataFrame(league_rows)
-        st.dataframe(df_l, hide_index=True, use_container_width=True)
+        st.dataframe(df_l, hide_index=True, width='stretch')
 
         st.divider()
         st.caption(

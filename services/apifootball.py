@@ -45,11 +45,17 @@ LEAGUE_MAP: Dict[str, tuple] = {
 
 
 def _get(endpoint: str, params: dict) -> Optional[dict]:
-    """Resilient GET with 3 retries and back-off."""
+    """Resilient GET with 3 retries and back-off. Fails immediately if no API key."""
+    if not APIFOOTBALL_KEY:
+        return None
+
     url = f"{_BASE}/{endpoint}"
     for attempt in range(3):
         try:
-            r = requests.get(url, headers=_HDRS, params=params, timeout=15)
+            r = requests.get(url, headers=_HDRS, params=params, timeout=8)
+            if r.status_code == 401:
+                logger.warning("API key unauthorized (401). Check APIFOOTBALL_KEY in secrets.")
+                return None
             r.raise_for_status()
             return r.json()
         except requests.exceptions.RequestException as exc:
