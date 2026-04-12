@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 CAT_OFFSET = timedelta(hours=2)
 WINDOW_HOURS = 6
 
-_BUILTIN_KEY = "4d34b5f590msh5ce9ece8c1f6910p155a7ajsnfbaa5a5fb605"
+_BUILTIN_KEY = "03c96245311eac5845be813143a85afa1f3de2edcc7ff291e02055b856cfd302"
 
 def _load_api_key() -> str:
     """Load API key: Streamlit secrets → env var → built-in key."""

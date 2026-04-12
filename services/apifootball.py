@@ -1,6 +1,6 @@
 """
 ZEUS v4 — API-Football v3 data service.
-Fetches fixtures and results from the RapidAPI endpoint.
+Fetches fixtures and results from the API-Sports direct endpoint.
 """
 import logging
 import time
@@ -14,10 +14,9 @@ from data.constants import APIFOOTBALL_KEY, WINDOW_HOURS
 
 logger = logging.getLogger(__name__)
 
-_BASE = "https://api-football-v1.p.rapidapi.com/v3"
+_BASE = "https://v3.football.api-sports.io"
 _HDRS = {
-    "X-RapidAPI-Key": APIFOOTBALL_KEY,
-    "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com",
+    "x-apisports-key": APIFOOTBALL_KEY,
 }
 
 LEAGUE_MAP: Dict[str, tuple] = {
