@@ -1,11 +1,14 @@
-[theme]
-base = "dark"
-backgroundColor = "#050b05"
-secondaryBackgroundColor = "#0b170b"
-primaryColor = "#39ff14"
-textColor = "#d4f0d4"
-
 [server]
 headless = true
 enableCORS = false
 enableXsrfProtection = false
+
+[theme]
+base = "dark"
+backgroundColor = "#040b04"
+secondaryBackgroundColor = "#0a160a"
+primaryColor = "#39ff14"
+textColor = "#d4f0d4"
+
+[runner]
+fastReruns = true

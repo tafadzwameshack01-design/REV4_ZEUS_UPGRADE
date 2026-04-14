@@ -1,0 +1,42 @@
+{
+  "HT_OVER_05": {
+    "gate": 67.0,
+    "elite_gate": 85.0,
+    "gate_elevation": 0.0,
+    "weights": {
+      "ht_over_rate_home": 1.2,
+      "ht_over_rate_away": 1.2,
+      "xg_total": 1.1,
+      "h2h_ht_over_rate": 0.9,
+      "league_avg_ht_goals": 0.7,
+      "scoring_consistency": 0.7,
+      "defensive_weakness": 0.5,
+      "form_recent": 0.9,
+      "poisson_over": 1.1,
+      "dixon_coles": 0.8
+    },
+    "total_predictions": 0,
+    "wins": 0,
+    "losses": 0
+  },
+  "HT_OVER_15": {
+    "gate": 45.0,
+    "elite_gate": 72.0,
+    "gate_elevation": 0.0,
+    "weights": {
+      "ht_over_rate_home": 1.2,
+      "ht_over_rate_away": 1.2,
+      "xg_total": 1.2,
+      "h2h_ht_over_rate": 0.9,
+      "league_avg_ht_goals": 0.8,
+      "scoring_consistency": 0.6,
+      "defensive_weakness": 0.6,
+      "form_recent": 0.8,
+      "poisson_over": 1.2,
+      "dixon_coles": 0.7
+    },
+    "total_predictions": 0,
+    "wins": 0,
+    "losses": 0
+  }
+}
